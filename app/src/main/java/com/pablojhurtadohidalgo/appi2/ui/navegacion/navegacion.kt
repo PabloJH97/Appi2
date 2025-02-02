@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.pablojhurtadohidalgo.appi2.ui.screen.detailScreen.DetailScreen
+import com.pablojhurtadohidalgo.appi2.ui.screen.detailScreen.DetailViewModel
 import com.pablojhurtadohidalgo.appi2.ui.screen.listaScreen.ListaViewModel
 import com.pablojhurtadohidalgo.appi2.ui.screen.listaScreen.ListaScreen
 
@@ -22,7 +23,8 @@ fun Navegacion() {
         composable<Detail> { backStackEntry ->
             val detail = backStackEntry.toRoute<Detail>()
             val id = detail.id
-            DetailScreen(id)
+            val viewModel= DetailViewModel(id)
+            DetailScreen(viewModel, id)
         }
     }
 }

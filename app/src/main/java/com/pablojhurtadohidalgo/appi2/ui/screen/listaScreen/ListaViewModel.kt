@@ -16,19 +16,22 @@ class ListaViewModel: ViewModel() {
     val progressBar: LiveData<Boolean> = _progressBar
 
     init{
-        _progressBar.value=true
+
         viewModelScope.launch(){
+            _progressBar.value=true
             val pokemons = RemoteConnection.service.getPokemons()
+
             _lista.value = pokemons.results.map{
-                val id=it.url.split('/')
-                val pokemonsDetail= RemoteConnection.service.getPokemonDetails(1)
+                val id=it.url.split('/').last{it.isNotEmpty()}.toInt()
+                val pokemonsDetail= RemoteConnection.service.getPokemonDetails(id)
                 MediaItem(
-                    id.last().toInt(),
+                    id,
                     it.name,
                     pokemonsDetail.sprites.front_default
                 )
 
             }
+            _progressBar.value = false
         }
     }
 }

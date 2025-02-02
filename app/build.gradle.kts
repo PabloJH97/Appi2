@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.pjurado.navegaciondetalle"
+    namespace = "com.pablojhurtadohidalgo.appi2"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.pjurado.navegaciondetalle"
+        applicationId = "com.pablojhurtadohidalgo.appi2"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
