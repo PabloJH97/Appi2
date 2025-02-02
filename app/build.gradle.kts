@@ -1,12 +1,14 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.services)
 }
 
 android {
     namespace = "com.pablojhurtadohidalgo.appi2"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.pablojhurtadohidalgo.appi2"
@@ -68,6 +70,14 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+    implementation(libs.nav.compose)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.play.services)
+
+    implementation(libs.coil)
 
 
     testImplementation(libs.junit)

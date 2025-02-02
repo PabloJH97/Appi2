@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "903567089152",
+    "project_id": "appi2-927b4",
+    "storage_bucket": "appi2-927b4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903567089152:android:f1f8fbd63e3226b8af02e5",
+        "android_client_info": {
+          "package_name": "com.pablojhurtadohidalgo.appi2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903567089152-9are9s4q33qbrn34mnbj9g6nadtjjhbe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pablojhurtadohidalgo.appi2",
+            "certificate_hash": "41d996fe6d0f56ecede4964457b41e9bc7989dd8"
+          }
+        },
+        {
+          "client_id": "903567089152-h5fpltonotju1etsfpnisgke5qcsud26.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkmAhCOVW60MGaIXTXsS1r6D1TCEIV2Mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903567089152-h5fpltonotju1etsfpnisgke5qcsud26.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
