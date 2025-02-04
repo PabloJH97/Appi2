@@ -42,8 +42,9 @@ fun Navegacion(auth: AuthManager) {
 
         composable<Lista>{
             val viewModel= ListaViewModel()
-            ListaScreen(viewModel){
+            ListaScreen(auth, viewModel, navigateToLogin={navController.navigate(Login){popUpTo(Lista){inclusive=true} } }){
                 id->navController.navigate(Detail(id))
+
             }
         }
         composable<Detail> { backStackEntry ->

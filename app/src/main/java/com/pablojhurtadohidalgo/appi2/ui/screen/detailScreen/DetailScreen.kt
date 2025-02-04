@@ -99,6 +99,22 @@ fun DetailScreen(viewModel: DetailViewModel, pokemonId: Int){
                             modifier = Modifier.padding(top = 8.dp)
                         )
                     }
+                    if(it.types.size>1){
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp)
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = it.types.last().type.name,
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier.padding(top = 8.dp)
+                            )
+                        }
+                    }
+
                 }
         }
     }
