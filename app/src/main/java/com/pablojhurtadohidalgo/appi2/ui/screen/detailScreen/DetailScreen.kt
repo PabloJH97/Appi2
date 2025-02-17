@@ -11,7 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,59 +53,41 @@ fun DetailScreen(viewModel: DetailViewModel, pokemonId: Int){
         }
     }else{
         pokemonDetails?.let {
-            Column(
-                modifier = Modifier
-                    .width(200.dp)
-                    .padding(2.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                Card(
+                    modifier=Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    shape= RoundedCornerShape(8.dp),
                 ) {
-                    val context = LocalContext.current
-                    Box(
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                    ) {
+                            .width(200.dp)
+                            .padding(2.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
 
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                model = it.sprites.front_default,
-                                imageLoader = ImageLoader.Builder(context).crossfade(true).build()
-                            ),
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp)
-                            .padding(16.dp)
                     ) {
-                        Text(
-                            text = it.name,
-                            style = MaterialTheme.typography.labelLarge,
-                            overflow = TextOverflow.Ellipsis,
-                        )
+                        val context = LocalContext.current
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                        ) {
 
-                    }
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp)
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = it.types.first().type.name,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
-                    }
-                    if(it.types.size>1){
+                            Image(
+                                painter = rememberAsyncImagePainter(
+                                    model = it.sprites.front_default,
+                                    imageLoader = ImageLoader.Builder(context).crossfade(true).build()
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
                         Box(
                             contentAlignment = Alignment.Center,
                             modifier = Modifier
@@ -108,14 +96,51 @@ fun DetailScreen(viewModel: DetailViewModel, pokemonId: Int){
                                 .padding(16.dp)
                         ) {
                             Text(
-                                text = it.types.last().type.name,
+                                text = it.name,
+                                style = MaterialTheme.typography.labelLarge,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+
+                        }
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp)
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = it.types.first().type.name,
                                 style = MaterialTheme.typography.bodyLarge,
                                 modifier = Modifier.padding(top = 8.dp)
                             )
                         }
-                    }
+                        if(it.types.size>1){
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(100.dp)
+                                    .padding(16.dp)
+                            ) {
+                                Text(
+                                    text = it.types.last().type.name,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(top = 8.dp)
+                                )
+                            }
+                        }
 
+                    }
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "",
+
+                    )
                 }
+            }
+
+
         }
     }
 

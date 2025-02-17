@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
+import com.pablojhurtadohidalgo.appi2.data.FirestoreManager
 import com.pablojhurtadohidalgo.appi2.data.model.MediaItem
+import com.pablojhurtadohidalgo.appi2.data.model.PokeData
 import com.pablojhurtadohidalgo.appi2.data.repositories.RemoteConnection
 import kotlinx.coroutines.launch
 
@@ -40,4 +42,6 @@ class ListaViewModel: ViewModel() {
             _progressBar.value = false
         }
     }
+
+
 }
