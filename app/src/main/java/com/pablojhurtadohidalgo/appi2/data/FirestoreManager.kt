@@ -34,9 +34,7 @@ class FirestoreManager(auth: AuthManager, context: Context) {
 
                     )
                 }
-
             }
-
         }
     }
     suspend fun addPokemon(pokeData: PokeData){

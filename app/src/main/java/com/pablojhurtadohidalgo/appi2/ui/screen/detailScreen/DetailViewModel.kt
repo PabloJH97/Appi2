@@ -3,13 +3,16 @@ package com.pablojhurtadohidalgo.appi2.ui.screen.detailScreen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.pablojhurtadohidalgo.appi2.data.FirestoreManager
+import com.pablojhurtadohidalgo.appi2.data.model.PokeData
 import com.pablojhurtadohidalgo.appi2.data.model.pokemon.PokemonDetailRepo
 import com.pablojhurtadohidalgo.appi2.data.repositories.RemoteConnection
 import com.pablojhurtadohidalgo.appi2.data.repositories.RemoteService
 import kotlinx.coroutines.launch
 
-class DetailViewModel(id: Int): ViewModel() {
+class DetailViewModel(val firestoreManager: FirestoreManager, id: Int): ViewModel() {
     private val _pokemonDetails= MutableLiveData<PokemonDetailRepo>()
     val pokemonDetails: LiveData<PokemonDetailRepo> = _pokemonDetails
 
@@ -23,5 +26,22 @@ class DetailViewModel(id: Int): ViewModel() {
             _pokemonDetails.value = pokemonDetail
             _progressBar.value=false
         }
+    }
+    fun addPokemon(pokeData: PokeData){
+        viewModelScope.launch {
+            firestoreManager.addPokemon(pokeData)
+        }
+    }
+
+    fun deletePokemonById(id: String){
+        viewModelScope.launch {
+            firestoreManager.deletePokemonById(id)
+        }
+    }
+}
+
+class DetailViewModelFactory(private val firestoreManager: FirestoreManager, val id: Int): ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return DetailViewModel(firestoreManager, id) as T
     }
 }

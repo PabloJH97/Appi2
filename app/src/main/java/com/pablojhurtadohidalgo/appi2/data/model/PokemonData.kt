@@ -6,7 +6,7 @@ import com.pablojhurtadohidalgo.appi2.data.model.pokemon.Sprites
 import com.pablojhurtadohidalgo.appi2.data.model.pokemon.Type
 
 data class PokemonData(
-    val id: Int=0,
+    val id: String="",
     val name: String="",
     val types: List<Type>,
     val sprite: String=""
