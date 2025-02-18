@@ -1,8 +1,9 @@
 package com.pablojhurtadohidalgo.appi2.data.model
 
+import com.pablojhurtadohidalgo.appi2.data.model.pokemon.PokemonDetailRepo
+
 data class PokeData(
-    var id: String?="",
     val usuario: String?="",
     val pokemon: String="",
-    val pokedata: Collection<PokemonData>
+    val pokedata: PokemonDetailRepo?
 )

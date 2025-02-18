@@ -9,8 +9,10 @@ import com.pablojhurtadohidalgo.appi2.data.model.PokemonRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
+import java.lang.Boolean.FALSE
 
 class FirestoreManager(auth: AuthManager, context: Context) {
+
     private val firestore = FirebaseFirestore.getInstance()
     private val userId = auth.getCurrentUser()?.uid
 
@@ -27,7 +29,6 @@ class FirestoreManager(auth: AuthManager, context: Context) {
             qs.documents.mapNotNull { ds ->
                 ds.toObject(PokedataDB::class.java)?.let{pokedataDB->
                     PokeData(
-                        id=ds.id,
                         usuario=pokedataDB.usuario,
                         pokemon=pokedataDB.pokemon,
                         pokedata=pokedataDB.pokedata
@@ -38,18 +39,65 @@ class FirestoreManager(auth: AuthManager, context: Context) {
         }
     }
     suspend fun addPokemon(pokeData: PokeData){
-        firestore.collection(FAVORITOS_COLLECTION).add(pokeData).await()
+        val pokeDB=firestore.collection(FAVORITOS_COLLECTION)
+        pokeDB
+            .whereEqualTo("usuario", pokeData.usuario)
+            .whereEqualTo("pokemon", pokeData.pokemon)
+            .get()
+            .addOnCompleteListener{task->
+                if(task.isSuccessful){
+                    if(task.result?.isEmpty==true){
+                        val newPokemon=hashMapOf(
+                            "usuario" to pokeData.usuario,
+                            "pokemon" to pokeData.pokemon,
+                            "pokedata" to pokeData.pokedata
+                        )
+                        pokeDB.add(newPokemon)
+                    }else{
+                        for(document in task.result!!){
+                            document.reference.delete()
+                        }
+                    }
+                }
+            }
+//        firestore.collection(FAVORITOS_COLLECTION).add(pokeData).await()
     }
 
-    suspend fun deletePokemonById(id: String){
-        firestore.collection(FAVORITOS_COLLECTION).document(id).delete().await()
+    suspend fun deletePokemon(pokeData: PokeData){
+        val pokeDB=firestore.collection(FAVORITOS_COLLECTION)
+        pokeDB
+            .whereEqualTo("usuario", pokeData.usuario)
+            .whereEqualTo("pokemon", pokeData.pokemon)
+            .get()
+            .addOnCompleteListener{task->
+                if(task.isSuccessful){
+                    for(document in task.result!!){
+                        document.reference.delete()
+                    }
+                }
+            }
+    }
+
+    fun dataExists(pokeData: PokeData, callback: (Boolean)->Unit)
+    {
+        val pokeDB=firestore.collection(FAVORITOS_COLLECTION)
+        pokeDB
+            .whereEqualTo("usuario", pokeData.usuario)
+            .whereEqualTo("pokemon", pokeData.pokemon)
+            .get()
+            .addOnCompleteListener{task->
+                if(task.isSuccessful){
+                    callback(!task.result!!.isEmpty)
+                }else{
+                    callback(false)
+                }
+            }
     }
 
     fun getPokeDataId(id: String): PokeData {
         return firestore.collection(FAVORITOS_COLLECTION).document(id)
             .get().result?.toObject(PokedataDB::class.java)?.let {
                 PokeData(
-                    id = id,
                     usuario = it.usuario,
                     pokemon = it.pokemon,
                     pokedata = it.pokedata

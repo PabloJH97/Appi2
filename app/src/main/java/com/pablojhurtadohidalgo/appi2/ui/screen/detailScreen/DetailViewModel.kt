@@ -33,11 +33,14 @@ class DetailViewModel(val firestoreManager: FirestoreManager, id: Int): ViewMode
         }
     }
 
-    fun deletePokemonById(id: String){
+    fun deletePokemon(pokeData: PokeData){
         viewModelScope.launch {
-            firestoreManager.deletePokemonById(id)
+            firestoreManager.deletePokemon(pokeData)
         }
     }
+
+
+
 }
 
 class DetailViewModelFactory(private val firestoreManager: FirestoreManager, val id: Int): ViewModelProvider.Factory {

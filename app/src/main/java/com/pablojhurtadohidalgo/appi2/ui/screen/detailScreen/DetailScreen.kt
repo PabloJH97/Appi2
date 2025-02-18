@@ -52,7 +52,6 @@ fun DetailScreen(auth: AuthManager, viewModel: DetailViewModel, pokemonId: Int, 
     val pokemonDetails by viewModel.pokemonDetails.observeAsState()
     val progressBar by viewModel.progressBar.observeAsState(false)
     val factory = DetailViewModelFactory(firestore, pokemonId)
-    val pokeList= mutableListOf<PokemonData>()
     val user = auth.getCurrentUser()
     val detailViewModel = viewModel(DetailViewModel::class.java, factory=factory)
     Scaffold(
@@ -60,10 +59,10 @@ fun DetailScreen(auth: AuthManager, viewModel: DetailViewModel, pokemonId: Int, 
             FloatingActionButton(
                 onClick={detailViewModel.addPokemon(
                     PokeData(
-                        id="",
                         usuario=auth.getCurrentUser()?.uid,
                         pokemon=pokemonId.toString(),
-                        pokedata=pokeList
+                        pokedata=pokemonDetails
+
                 )
                 )}
             ) {
