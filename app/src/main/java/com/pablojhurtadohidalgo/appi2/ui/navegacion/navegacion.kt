@@ -15,6 +15,8 @@ import com.pablojhurtadohidalgo.appi2.ui.screen.listaScreen.ListaScreen
 import com.pablojhurtadohidalgo.appi2.ui.screen.authScreen.LoginScreen
 import com.pablojhurtadohidalgo.appi2.ui.screen.authScreen.ForgotPasswordScreen
 import com.pablojhurtadohidalgo.appi2.ui.screen.authScreen.SignUpScreen
+import com.pablojhurtadohidalgo.appi2.ui.screen.favoritosScreen.FavoritosScreen
+import com.pablojhurtadohidalgo.appi2.ui.screen.favoritosScreen.FavoritosViewModel
 
 @Composable
 fun Navegacion(auth: AuthManager) {
@@ -44,7 +46,7 @@ fun Navegacion(auth: AuthManager) {
 
         composable<Lista>{
             val viewModel= ListaViewModel()
-            ListaScreen(auth, viewModel, navigateToLogin={navController.navigate(Login){popUpTo(Lista){inclusive=true} } }){
+            ListaScreen(auth, viewModel, navigateToLogin={navController.navigate(Login){popUpTo(Lista){inclusive=true} } }, navigateToFavoritos = { navController.navigate(Favoritos) }){
                 id->navController.navigate(Detail(id))
 
             }
@@ -56,6 +58,12 @@ fun Navegacion(auth: AuthManager) {
             DetailScreen(auth, viewModel, id, firestore)
         }
 
+        composable<Favoritos> {
+            val viewModel=FavoritosViewModel()
+            FavoritosScreen(auth, viewModel, navigateToLogin={navController.navigate(Login){popUpTo(Lista){inclusive=true} } }){
+                    id->navController.navigate(Detail(id))
+        }
+
         composable <ForgotPassword> {
             ForgotPasswordScreen(
                 auth
@@ -64,4 +72,5 @@ fun Navegacion(auth: AuthManager) {
             } }
         }
     }
+}
 }

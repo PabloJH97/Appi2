@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ExitToApp
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -57,7 +58,7 @@ import com.pablojhurtadohidalgo.appi2.data.model.MediaItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: () -> Unit, navigateToDetail: (Int) -> Unit){
+fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: () -> Unit, navigateToFavoritos: () -> Unit, navigateToDetail: (Int) -> Unit){
     val lista by viewModel.lista.observeAsState(emptyList())
     val progressBar by viewModel.progressBar.observeAsState(false)
     var showDialog by remember { mutableStateOf(false) }
@@ -112,6 +113,11 @@ fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: (
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Cyan),
                 actions = {
+                    IconButton(onClick = {
+                        navigateToFavoritos()
+                    }) {
+                        Icon(imageVector = Icons.Default.Star, contentDescription = "Favoritos")
+                    }
                     IconButton(onClick = {
                         showDialog = true
                     }) {
