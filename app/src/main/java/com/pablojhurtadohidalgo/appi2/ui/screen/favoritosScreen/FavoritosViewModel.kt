@@ -58,9 +58,9 @@ class FavoritosViewModel: ViewModel() {
 
             }
             _progressBar.value = false
+            }
         }
     }
-}
 
     private suspend fun getUserPokemonIds(userId: String): List<Int> {
         return try{

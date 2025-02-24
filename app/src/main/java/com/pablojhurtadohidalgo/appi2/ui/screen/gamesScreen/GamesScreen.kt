@@ -1,5 +1,6 @@
-package com.pablojhurtadohidalgo.appi2.ui.screen.listaScreen
+package com.pablojhurtadohidalgo.appi2.ui.screen.gamesScreen
 
+import com.pablojhurtadohidalgo.appi2.data.model.MediaJuego
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,7 +21,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ExitToApp
-import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -55,11 +55,11 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.pablojhurtadohidalgo.appi2.R
 import com.pablojhurtadohidalgo.appi2.data.AuthManager
-import com.pablojhurtadohidalgo.appi2.data.model.MediaItem
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: () -> Unit, navigateToFavoritos: () -> Unit, navigateToJuegos: () -> Unit, navigateToDetail: (Int) -> Unit){
+fun GamesScreen(auth: AuthManager, viewModel: GamesViewModel, navigateToLogin: () -> Unit, navigateToJuego: (String?) -> Unit){
     val lista by viewModel.lista.observeAsState(emptyList())
     val progressBar by viewModel.progressBar.observeAsState(false)
     var showDialog by remember { mutableStateOf(false) }
@@ -115,16 +115,6 @@ fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: (
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Cyan),
                 actions = {
                     IconButton(onClick = {
-                        navigateToJuegos()
-                    }) {
-                        Icon(imageVector = Icons.Default.Apps, contentDescription = "Juegos")
-                    }
-                    IconButton(onClick = {
-                        navigateToFavoritos()
-                    }) {
-                        Icon(imageVector = Icons.Default.Star, contentDescription = "Favoritos")
-                    }
-                    IconButton(onClick = {
                         showDialog = true
                     }) {
                         Icon(Icons.AutoMirrored.Outlined.ExitToApp, contentDescription = "Cerrar sesión")
@@ -170,8 +160,8 @@ fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: (
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         //modifier = Modifier.fillMaxSize()
                     ) {
-                        items(lista!!) { mediaItem ->
-                            MediaListItem(mediaItem, navigateToDetail)
+                        items(lista!!) { mediaJuego ->
+                            MediaListItem(mediaJuego, navigateToJuego)
                         }
                     }
                 }
@@ -184,22 +174,22 @@ fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: (
 }
 
 @Composable
-private fun MediaListItem(mediaItem: MediaItem, navigateToDetail: (Int) -> Unit){
+private fun MediaListItem(mediaJuego: MediaJuego, navigateToJuego: (String?) -> Unit){
     Column(
         modifier = Modifier
             .width(200.dp)
             .padding(2.dp)
-            .clickable { navigateToDetail(mediaItem.id) },
+            .clickable { navigateToJuego(mediaJuego.name) },
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
-        Imagen(item = mediaItem)
-        Title(item = mediaItem)
+        Imagen(item = mediaJuego)
+        Title(item = mediaJuego)
     }
 }
 
 @Composable
-fun Imagen(item: MediaItem, modifier: Modifier = Modifier) {
+fun Imagen(item: MediaJuego, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Box(
         modifier = modifier
@@ -220,7 +210,7 @@ fun Imagen(item: MediaItem, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Title(item: MediaItem) {
+fun Title(item: MediaJuego) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -229,11 +219,13 @@ fun Title(item: MediaItem) {
             .background(Color.Cyan)
             .padding(16.dp)
     ) {
-        Text(
-            text = item.name,
-            style = MaterialTheme.typography.labelLarge,
-            overflow = TextOverflow.Ellipsis,
-        )
+        item.name?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.labelLarge,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 

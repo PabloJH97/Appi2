@@ -19,3 +19,9 @@ object ForgotPassword
 
 @Serializable
 object Favoritos
+
+@Serializable
+object Games
+
+@Serializable
+data class DetailGame(val name:String?)

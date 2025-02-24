@@ -18,7 +18,7 @@ class FirestoreManager(auth: AuthManager, context: Context) {
 
     companion object {
         const val FAVORITOS_COLLECTION = "favoritos"
-        const val POKEDATA_COLLECTION = "pokedata"
+        const val JUEGOS_COLLECTION = "juegos"
     }
 
     fun getPokemons(): Flow<List<PokeData>> {
@@ -38,6 +38,7 @@ class FirestoreManager(auth: AuthManager, context: Context) {
             }
         }
     }
+
     suspend fun addPokemon(pokeData: PokeData){
         val pokeDB=firestore.collection(FAVORITOS_COLLECTION)
         pokeDB

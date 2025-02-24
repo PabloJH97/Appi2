@@ -15,8 +15,12 @@ import com.pablojhurtadohidalgo.appi2.ui.screen.listaScreen.ListaScreen
 import com.pablojhurtadohidalgo.appi2.ui.screen.authScreen.LoginScreen
 import com.pablojhurtadohidalgo.appi2.ui.screen.authScreen.ForgotPasswordScreen
 import com.pablojhurtadohidalgo.appi2.ui.screen.authScreen.SignUpScreen
+import com.pablojhurtadohidalgo.appi2.ui.screen.detailGameScreen.DetailGameScreen
+import com.pablojhurtadohidalgo.appi2.ui.screen.detailGameScreen.DetailGameViewModel
 import com.pablojhurtadohidalgo.appi2.ui.screen.favoritosScreen.FavoritosScreen
 import com.pablojhurtadohidalgo.appi2.ui.screen.favoritosScreen.FavoritosViewModel
+import com.pablojhurtadohidalgo.appi2.ui.screen.gamesScreen.GamesScreen
+import com.pablojhurtadohidalgo.appi2.ui.screen.gamesScreen.GamesViewModel
 
 @Composable
 fun Navegacion(auth: AuthManager) {
@@ -46,11 +50,29 @@ fun Navegacion(auth: AuthManager) {
 
         composable<Lista>{
             val viewModel= ListaViewModel()
-            ListaScreen(auth, viewModel, navigateToLogin={navController.navigate(Login){popUpTo(Lista){inclusive=true} } }, navigateToFavoritos = { navController.navigate(Favoritos) }){
+            ListaScreen(auth, viewModel, navigateToLogin={navController.navigate(Login){popUpTo(Lista){inclusive=true} } }, navigateToFavoritos = { navController.navigate(Favoritos)}, navigateToJuegos = { navController.navigate(Games) }){
                 id->navController.navigate(Detail(id))
 
             }
         }
+
+        composable<Games>{
+            val viewModel= GamesViewModel()
+            GamesScreen(auth, viewModel, navigateToLogin={navController.navigate(Login){popUpTo(Lista){inclusive=true} } }){
+                    name->navController.navigate(DetailGame(name))
+
+            }
+        }
+
+        composable<DetailGame> { backStackEntry ->
+            val detail= backStackEntry.toRoute<DetailGame>()
+            val name= detail.name
+            val viewModel= DetailGameViewModel(name)
+            DetailGameScreen(auth, viewModel, navigateToLogin={navController.navigate(Login){popUpTo(Lista){inclusive=true} } }){
+                    id->navController.navigate(Detail(id))
+            }
+        }
+
         composable<Detail> { backStackEntry ->
             val detail = backStackEntry.toRoute<Detail>()
             val id = detail.id

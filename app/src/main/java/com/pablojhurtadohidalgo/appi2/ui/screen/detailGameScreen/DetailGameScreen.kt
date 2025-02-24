@@ -1,4 +1,5 @@
-package com.pablojhurtadohidalgo.appi2.ui.screen.listaScreen
+package com.pablojhurtadohidalgo.appi2.ui.screen.detailGameScreen
+
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -56,10 +57,11 @@ import coil.request.ImageRequest
 import com.pablojhurtadohidalgo.appi2.R
 import com.pablojhurtadohidalgo.appi2.data.AuthManager
 import com.pablojhurtadohidalgo.appi2.data.model.MediaItem
+import com.pablojhurtadohidalgo.appi2.ui.screen.listaScreen.ListaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: () -> Unit, navigateToFavoritos: () -> Unit, navigateToJuegos: () -> Unit, navigateToDetail: (Int) -> Unit){
+fun DetailGameScreen(auth: AuthManager, viewModel: DetailGameViewModel, navigateToLogin: () -> Unit, navigateToDetail: (Int) -> Unit){
     val lista by viewModel.lista.observeAsState(emptyList())
     val progressBar by viewModel.progressBar.observeAsState(false)
     var showDialog by remember { mutableStateOf(false) }
@@ -114,16 +116,6 @@ fun ListaScreen(auth: AuthManager, viewModel: ListaViewModel, navigateToLogin: (
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Cyan),
                 actions = {
-                    IconButton(onClick = {
-                        navigateToJuegos()
-                    }) {
-                        Icon(imageVector = Icons.Default.Apps, contentDescription = "Juegos")
-                    }
-                    IconButton(onClick = {
-                        navigateToFavoritos()
-                    }) {
-                        Icon(imageVector = Icons.Default.Star, contentDescription = "Favoritos")
-                    }
                     IconButton(onClick = {
                         showDialog = true
                     }) {
